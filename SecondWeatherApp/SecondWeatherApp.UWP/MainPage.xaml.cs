@@ -19,16 +19,27 @@ namespace SecondWeatherApp.UWP
 {
     public sealed partial class MainPage : Page
     {
-		int count = 1;
 
 		public MainPage()
         {
             this.InitializeComponent();
+        }
 
-			myButton.Click += (s, e) =>
-			{
-				myButton.Content = $"{count++} clicks!";
-			};
+        private async void GetWeatherButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(zipCodeEntry.Text))
+            {
+                Weather weather = await Core.GetWeather(zipCodeEntry.Text);
+                locationText.Text = weather.Title;
+                tempText.Text = weather.Temperature;
+                windText.Text = weather.Wind;
+                visibilityText.Text = weather.Visibility;
+                humidityText.Text = weather.Humidity;
+                sunriseText.Text = weather.Sunrise;
+                sunsetText.Text = weather.Sunset;
+
+                weatherBtn.Content = "Search Again";
+            }
         }
     }
 }
